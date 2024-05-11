@@ -1,0 +1,24 @@
+{
+	"name": "Medals",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_HttpServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"BASEURL": "https://raw.githubusercontent.com/Payasgo/Data_Engineer/DEV/Data_Engineer/Data_Bricks_Datasets/Medals.csv"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
