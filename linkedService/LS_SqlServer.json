@@ -1,0 +1,27 @@
+{
+	"name": "LS_SqlServer",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"parameters": {
+			"ServerName": {
+				"type": "string"
+			},
+			"Database": {
+				"type": "string"
+			},
+			"Username": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServer",
+		"typeProperties": {
+			"connectionString": "integrated security=False;data source=@{linkedService().ServerName};initial catalog=@{linkedService().Database};user id=@{linkedService().Username}",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIxYzAxYWM0OS05NTgyLTRjYmEtYWQzZC1mNWIyYWE0NGZmZTkiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SELFintegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
