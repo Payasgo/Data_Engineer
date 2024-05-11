@@ -1,0 +1,17 @@
+{
+	"name": "Ds_source_SqlServerTable",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_SqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"ServerName": "KRANTHI",
+				"Database": "sqllearning",
+				"Username": "adf"
+			}
+		},
+		"annotations": [],
+		"type": "SqlServerTable",
+		"schema": []
+	}
+}
