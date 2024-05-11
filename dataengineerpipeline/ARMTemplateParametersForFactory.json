@@ -16,6 +16,9 @@
 		},
 		"LS_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adlsgen2dataengineer.dfs.core.windows.net/"
+		},
+		"LS_HttpServer_properties_typeProperties_url": {
+			"value": "https://dummy.restapiexample.com/api/v1/employees"
 		}
 	}
 }
