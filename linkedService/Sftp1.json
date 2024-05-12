@@ -1,0 +1,20 @@
+{
+	"name": "Sftp1",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"annotations": [],
+		"type": "Sftp",
+		"typeProperties": {
+			"host": "kranthi",
+			"port": 22,
+			"skipHostKeyValidation": true,
+			"authenticationType": "Basic",
+			"userName": "KranthiYarlagadda",
+			"encryptedCredential": "eyJDcmVkZW50aWFsSWQiOiIwODI0YzU1MC1jZjRkLTRiYzItODA1ZC0zYjQzMDQyM2I2YjAiLCJWZXJzaW9uIjoiMi4wIiwiQ2xhc3NUeXBlIjoiTWljcm9zb2Z0LkRhdGFQcm94eS5Db3JlLkludGVyU2VydmljZURhdGFDb250cmFjdC5DcmVkZW50aWFsU1UwNkNZMTQifQ=="
+		},
+		"connectVia": {
+			"referenceName": "SELFintegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
