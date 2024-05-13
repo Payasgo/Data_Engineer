@@ -19,9 +19,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_AzureSqlDatabase'"
 		},
+		"LS_FileServer_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_FileServer'"
+		},
 		"ls_SqlServer_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_SqlServer'"
+		},
+		"Sftp1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp1'"
 		},
 		"LS_AzureDataLakeStorage_properties_typeProperties_url": {
 			"type": "string",
@@ -30,6 +38,22 @@
 		"LS_HttpServer_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dummy.restapiexample.com/api/v1/employees"
+		},
+		"LS_FileServer_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\Users\\KranthiYarlagadda\\Downloads\\Datasets\\Datasets\\Datasets"
+		},
+		"LS_FileServer_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "KranthiYarlagadda"
+		},
+		"Sftp1_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "kranthi"
+		},
+		"Sftp1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "KranthiYarlagadda"
 		}
 	},
 	"variables": {
@@ -242,6 +266,50 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/DelimitedText_ftpfile')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LS_AzureDataLakeStorage",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileSystem": "rawdata"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "DepartmentID",
+						"type": "String"
+					},
+					{
+						"name": "Name",
+						"type": "String"
+					},
+					{
+						"name": "GroupName",
+						"type": "String"
+					},
+					{
+						"name": "ModifiedDate",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LS_AzureDataLakeStorage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/DestinationDataset_xtc')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -430,6 +498,30 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/LS_FileServer')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "FileServer",
+				"typeProperties": {
+					"host": "[parameters('LS_FileServer_properties_typeProperties_host')]",
+					"userId": "[parameters('LS_FileServer_properties_typeProperties_userId')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('LS_FileServer_password')]"
+					}
+				},
+				"connectVia": {
+					"referenceName": "SHIRintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIRintegrationRuntime')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_SqlServer')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -460,227 +552,30 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/CopyPipeline_xtc')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/Sftp1')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"activities": [
-					{
-						"name": "Copy_xtc",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Destination",
-								"value": "rawdata//DATAAPI"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "DelimitedTextSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextWriteSettings",
-									"quoteAllText": true,
-									"fileExtension": ".txt"
-								}
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"path": "$['status']"
-										},
-										"sink": {
-											"name": "status"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data'][0]['id']"
-										},
-										"sink": {
-											"name": "id"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data'][0]['employee_name']"
-										},
-										"sink": {
-											"name": "employee_name"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data'][0]['employee_salary']"
-										},
-										"sink": {
-											"name": "employee_salary"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data'][0]['employee_age']"
-										},
-										"sink": {
-											"name": "employee_age"
-										}
-									},
-									{
-										"source": {
-											"path": "$['data'][0]['profile_image']"
-										},
-										"sink": {
-											"name": "profile_image"
-										}
-									},
-									{
-										"source": {
-											"path": "$['message']"
-										},
-										"sink": {
-											"name": "message"
-										}
-									}
-								]
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_xtc",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_xtc",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_xtc')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_xtc')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/pl_aut')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "Copy data1",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "JsonSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "JsonReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "DS_Json",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DS_rq_Json",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
 				"annotations": [],
-				"lastPublishTime": "2024-05-12T11:03:10Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/DS_Json')]",
-				"[concat(variables('factoryId'), '/datasets/DS_rq_Json')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/DS_SqlServerTable')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_SqlServer",
-					"type": "LinkedServiceReference",
-					"parameters": {
-						"ServerName": "KRANTHI",
-						"DatabseName": "AdventureWorks2019",
-						"username": "adf"
+				"type": "Sftp",
+				"typeProperties": {
+					"host": "[parameters('Sftp1_properties_typeProperties_host')]",
+					"port": 22,
+					"skipHostKeyValidation": true,
+					"authenticationType": "Basic",
+					"userName": "[parameters('Sftp1_properties_typeProperties_userName')]",
+					"password": {
+						"type": "SecureString",
+						"value": "[parameters('Sftp1_password')]"
 					}
 				},
-				"annotations": [],
-				"type": "SqlServerTable",
-				"schema": [],
-				"typeProperties": {}
+				"connectVia": {
+					"referenceName": "SHIRintegrationRuntime",
+					"type": "IntegrationRuntimeReference"
+				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_SqlServer')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/SHIRintegrationRuntime')]"
 			]
 		}
 	]

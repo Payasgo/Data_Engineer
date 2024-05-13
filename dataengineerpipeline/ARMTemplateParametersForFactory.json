@@ -11,7 +11,13 @@
 		"LS_AzureDataLakeStorage_accountKey": {
 			"value": ""
 		},
+		"LS_FileServer_password": {
+			"value": ""
+		},
 		"ls_SqlServer_connectionString": {
+			"value": ""
+		},
+		"Sftp1_password": {
 			"value": ""
 		},
 		"ls_AzureSqlDatabase_connectionString": {
@@ -20,8 +26,20 @@
 		"LS_AzureDataLakeStorage_properties_typeProperties_url": {
 			"value": "https://adlsgen2dataengineer.dfs.core.windows.net/"
 		},
+		"LS_FileServer_properties_typeProperties_host": {
+			"value": "C:\\Users\\KranthiYarlagadda\\Downloads\\Datasets\\Datasets\\Datasets"
+		},
+		"LS_FileServer_properties_typeProperties_userId": {
+			"value": "KranthiYarlagadda"
+		},
 		"LS_HttpServer_properties_typeProperties_url": {
 			"value": "https://dummy.restapiexample.com/api/v1/employees"
+		},
+		"Sftp1_properties_typeProperties_host": {
+			"value": "kranthi"
+		},
+		"Sftp1_properties_typeProperties_userName": {
+			"value": "KranthiYarlagadda"
 		}
 	}
 }

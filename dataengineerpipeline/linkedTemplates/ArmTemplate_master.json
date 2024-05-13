@@ -15,9 +15,17 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'LS_AzureDataLakeStorage'"
 		},
+		"LS_FileServer_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'LS_FileServer'"
+		},
 		"ls_SqlServer_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_SqlServer'"
+		},
+		"Sftp1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'Sftp1'"
 		},
 		"ls_AzureSqlDatabase_connectionString": {
 			"type": "secureString",
@@ -27,9 +35,25 @@
 			"type": "string",
 			"defaultValue": "https://adlsgen2dataengineer.dfs.core.windows.net/"
 		},
+		"LS_FileServer_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "C:\\Users\\KranthiYarlagadda\\Downloads\\Datasets\\Datasets\\Datasets"
+		},
+		"LS_FileServer_properties_typeProperties_userId": {
+			"type": "string",
+			"defaultValue": "KranthiYarlagadda"
+		},
 		"LS_HttpServer_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://dummy.restapiexample.com/api/v1/employees"
+		},
+		"Sftp1_properties_typeProperties_host": {
+			"type": "string",
+			"defaultValue": "kranthi"
+		},
+		"Sftp1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "KranthiYarlagadda"
 		},
 		"containerUri": {
 			"type": "string",
@@ -67,14 +91,32 @@
 					"ls_AzureSqlDatabase_connectionString": {
 						"value": "[parameters('ls_AzureSqlDatabase_connectionString')]"
 					},
+					"LS_FileServer_password": {
+						"value": "[parameters('LS_FileServer_password')]"
+					},
 					"ls_SqlServer_connectionString": {
 						"value": "[parameters('ls_SqlServer_connectionString')]"
+					},
+					"Sftp1_password": {
+						"value": "[parameters('Sftp1_password')]"
 					},
 					"LS_AzureDataLakeStorage_properties_typeProperties_url": {
 						"value": "[parameters('LS_AzureDataLakeStorage_properties_typeProperties_url')]"
 					},
 					"LS_HttpServer_properties_typeProperties_url": {
 						"value": "[parameters('LS_HttpServer_properties_typeProperties_url')]"
+					},
+					"LS_FileServer_properties_typeProperties_host": {
+						"value": "[parameters('LS_FileServer_properties_typeProperties_host')]"
+					},
+					"LS_FileServer_properties_typeProperties_userId": {
+						"value": "[parameters('LS_FileServer_properties_typeProperties_userId')]"
+					},
+					"Sftp1_properties_typeProperties_host": {
+						"value": "[parameters('Sftp1_properties_typeProperties_host')]"
+					},
+					"Sftp1_properties_typeProperties_userName": {
+						"value": "[parameters('Sftp1_properties_typeProperties_userName')]"
 					}
 				}
 			},
