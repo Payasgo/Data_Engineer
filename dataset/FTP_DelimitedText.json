@@ -1,0 +1,22 @@
+{
+	"name": "FTP_DelimitedText",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "LS_FileServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "FileServerLocation",
+				"fileName": "product.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
